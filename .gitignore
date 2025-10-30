@@ -1,0 +1,117 @@
+# ===============================
+# Visual Studio / .NET / ABP
+# ===============================
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Tt]est[Rr]esult*/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild[Ll]og.*
+
+## Visual Studio 2022+, JetBrains Rider
+.vs/
+.idea/
+.vscode/
+
+## Output folders
+dist/
+publish/
+out/
+artifacts/
+
+## Packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+!**/packages/build/
+*.dSYM
+
+## NuGet restore files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ABP specific
+App_Data/
+App_Data_Temp/
+Localization/Cache/
+wwwroot/libs/
+wwwroot/dist/
+wwwroot/node_modules/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+## Entity Framework / Migrations
+Migrations/
+DatabaseBackup/
+*.mdf
+*.ldf
+
+## Logs / Temp
+*.log
+*.tlog
+*.tmp
+*.temp
+*.bak
+
+## OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Publish profiles
+*.pubxml
+*.publishsettings
+Properties/PublishProfiles/
+
+## Configuration files (local dev)
+appsettings.Local.json
+appsettings.Development.json
+appsettings.Development.*
+appsettings.local.json
+secrets.json
+.env
+.env.*
+
+## Resharper / Rider / CodeLens
+_ReSharper*/
+*.DotSettings.user
+.idea/
+*.sln.iml
+
+## Azure
+.scm/
+PublishScripts/
+
+## Docker
+docker-compose.override.yml
+.dockerignore
+*.db
+
+## SonarQube
+.sonar/
+. SonarQube/
+
+# ===============================
+# End of gitignore
+# ===============================
