@@ -11,7 +11,6 @@ namespace G7.Foss.EntityFrameworkCore;
     typeof(AbpZeroCoreEntityFrameworkCoreModule))]
 public class FossEntityFrameworkModule : AbpModule
 {
-    /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */
     public bool SkipDbContextRegistration { get; set; }
 
     public bool SkipDbSeed { get; set; }
