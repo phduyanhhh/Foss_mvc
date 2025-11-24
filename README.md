@@ -1,5 +1,11 @@
 # Dự án Mã nguồn mở
+
 ---
+
+## 1. Trước khi bắt đầu chạy (Bắt buộc)
+
+- Net 9 SDK
+
 
 ## 1. Add migrations
 ```bash
