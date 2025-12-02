@@ -111,7 +111,7 @@ docker-compose.override.yml
 ## SonarQube
 .sonar/
 . SonarQube/
-
+appsettings.json
 # ===============================
 # End of gitignore
 # ===============================
