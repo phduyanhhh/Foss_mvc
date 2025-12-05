@@ -14,7 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\G7.Foss.Core\G7.Foss.Core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Usecases\Employees\" />
-  </ItemGroup>
 </Project>
