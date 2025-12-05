@@ -86,8 +86,8 @@ Properties/PublishProfiles/
 
 ## Configuration files (local dev)
 appsettings.Local.json
-#appsettings.Development.json
-#appsettings.Development.*
+appsettings.Development.json
+appsettings.Development.*
 appsettings.local.json
 secrets.json
 .env
