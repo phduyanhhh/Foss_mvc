@@ -96,4 +96,38 @@ public class EmployeeAppServices : FossAppServiceBase, IEmployeeAppServices
 
         return employeeDto;
     }
+
+    public async Task UpdateEmployee(UpdateEmployeeInput input)
+    {
+        Employee existingEmployeeById = await _repositoryEmployeeAppService.FirstOrDefaultAsync(x => x.Id == input.Id);
+        
+        if (existingEmployeeById == null)
+        {
+            throw new UserFriendlyException("Employee not found");
+        }
+        
+        existingEmployeeById.FirstName = input.FirstName;
+        existingEmployeeById.LastName = input.LastName;
+        existingEmployeeById.Email = input.Email;
+        existingEmployeeById.PhoneNumber = input.PhoneNumber;
+        existingEmployeeById.Address = input.Address;
+        existingEmployeeById.Salary = input.Salary;
+        existingEmployeeById.Position = input.Position;
+        existingEmployeeById.DateOfBirth = input.DateOfBirth;
+        existingEmployeeById.Gender = input.Gender;
+        
+        await _repositoryEmployeeAppService.UpdateAsync(existingEmployeeById);
+    }
+
+    public async Task DeleteEmployee(int id)
+    {
+        Employee existingEmployeeById = await _repositoryEmployeeAppService.FirstOrDefaultAsync(x => x.Id == id);
+        
+        if (existingEmployeeById == null)
+        {
+            throw new UserFriendlyException("Employee not found");
+        }
+        
+        await _repositoryEmployeeAppService.DeleteAsync(existingEmployeeById);
+    }
 }
