@@ -6,6 +6,7 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using G7.Foss.Entities;
 using G7.Foss.Services.Employees.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -69,5 +70,30 @@ public class EmployeeAppServices : FossAppServiceBase, IEmployeeAppServices
             }).ToListAsync();
 
         return new PagedResultDto<EmployeeListDto>(totalCount, items);
+    }
+
+    public async Task<EmployeeListDto> GetEmployeeById(int id)
+    {
+        Employee existingEmployeeById = await _repositoryEmployeeAppService.FirstOrDefaultAsync(x => x.Id == id);
+        if (existingEmployeeById == null)
+        {
+            throw new UserFriendlyException("Employee not found");
+        }
+
+        EmployeeListDto employeeDto = new()
+        {
+            Id = existingEmployeeById.Id,
+            FirstName = existingEmployeeById.FirstName,
+            LastName = existingEmployeeById.LastName,
+            Email = existingEmployeeById.Email,
+            PhoneNumber = existingEmployeeById.PhoneNumber,
+            Address = existingEmployeeById.Address,
+            Salary = existingEmployeeById.Salary,
+            Position = existingEmployeeById.Position,
+            DateOfBirth = existingEmployeeById.DateOfBirth,
+            Gender = existingEmployeeById.Gender
+        };
+
+        return employeeDto;
     }
 }

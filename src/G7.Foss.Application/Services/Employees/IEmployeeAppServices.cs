@@ -9,4 +9,5 @@ public interface IEmployeeAppServices : IApplicationService
 {
     Task Create(CreateEmployeeInput input);
     Task<PagedResultDto<EmployeeListDto>> GetList(GetAllEmployeeInput input);
+    Task<EmployeeListDto> GetEmployeeById(int id);
 }
