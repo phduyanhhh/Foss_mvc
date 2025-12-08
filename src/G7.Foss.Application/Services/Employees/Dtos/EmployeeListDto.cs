@@ -1,13 +1,11 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
+using G7.Foss.Entities;
 
-namespace G7.Foss.Entities;
+namespace G7.Foss.Services.Employees.Dtos;
 
-[Table("Employees")]
-public class Employee : FullAuditedEntity<int>
+public class EmployeeListDto
 {
+    public int Id {get; set;}
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
@@ -17,22 +15,4 @@ public class Employee : FullAuditedEntity<int>
     public PositionEnum Position { get; set; }
     public DateTime DateOfBirth { get; set; }
     public GenderEnum Gender { get; set; }
-}
-
-public enum GenderEnum
-{
-    Male,
-    Female
-}
-
-public enum PositionEnum
-{
-    Dev,
-    Qc,
-    Ba,
-    DevFe,
-    DevBe,
-    Pm,
-    Tech,
-    Tester
 }
