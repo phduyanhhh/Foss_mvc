@@ -5,60 +5,159 @@
 @{
     Layout = null;
 }
+
+@* --- Custom CSS cho Modal này (Có thể đưa vào file css riêng) --- *@
+<style>
+    /* Làm cho header của modal trông nhẹ nhàng hơn */
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Tùy chỉnh Tabs thành dạng Pills (viên thuốc) trông hiện đại hơn */
+    .nav-pills .nav-link {
+        color: #6c757d;
+        font-weight: 500;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            color: #fff;
+            background-color: #0d6efd; /* Hoặc màu chủ đạo của dự án */
+            box-shadow: 0 4px 6px rgba(13, 110, 253, 0.2);
+        }
+
+    /* Vùng chứa nội dung tab */
+    .tab-content-container {
+        background-color: #fff;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        border: 1px solid #edf2f7;
+    }
+
+    /* Icon đại diện lớn */
+    .user-avatar-icon {
+        font-size: 4rem;
+        color: #cbd5e0;
+    }
+</style>
+
+
 @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditUser")))
-<form name="UserEditForm" role="form" class="form-horizontal">
+
+<form name="UserEditForm" role="form" class="needs-validation" novalidate>
     <input type="hidden" name="Id" value="@Model.User.Id" />
-    <div class="modal-body">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#edit-user-details">@L("UserDetails")</a>
+    <div class="modal-body bg-light text-dark p-4">
+
+        @* Nav Pills centered *@
+        <ul class="nav nav-pills nav-fill mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active mx-2" id="pills-user-details-tab" data-bs-toggle="pill" data-bs-target="#pills-user-details" type="button" role="tab" aria-controls="pills-user-details" aria-selected="true">
+                    <i class="fas fa-user-circle me-2"></i>@L("UserDetails")
+                </button>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#edit-user-roles">@L("UserRoles")</a>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link mx-2" id="pills-user-roles-tab" data-bs-toggle="pill" data-bs-target="#pills-user-roles" type="button" role="tab" aria-controls="pills-user-roles" aria-selected="false">
+                    <i class="fas fa-user-shield me-2"></i>@L("UserRoles")
+                </button>
             </li>
         </ul>
-        <div class="tab-content mt-4">
-            <div role="tabpanel" class="tab-pane container active" id="edit-user-details">
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="username">@L("UserName")</label>
-                    <div class="col-md-9">
-                        <input id="username" type="text" class="form-control" name="UserName" value="@Model.User.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" minlength="2">
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="name">@L("Name")</label>
-                    <div class="col-md-9">
-                        <input id="name" type="text" class="form-control" name="Name" value="@Model.User.Name" required maxlength="@AbpUserBase.MaxNameLength">
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="surname">@L("Surname")</label>
-                    <div class="col-md-9">
-                        <input id="surname" type="text" class="form-control" name="Surname" value="@Model.User.Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label class="col-md-3 col-form-label" for="email">@L("EmailAddress")</label>
-                    <div class="col-md-9">
-                        <input id="email" type="email" class="form-control" name="EmailAddress" value="@Model.User.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="IsActive">@L("IsActive")</label>
-                    <div class="col-md-9">
-                        <input id="IsActive" type="checkbox" name="IsActive" value="true" @(Model.User.IsActive ? "checked" : "") />
-                    </div>
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane container" id="edit-user-roles">
-                <div class="row">
-                    @foreach (var role in Model.Roles)
-                    {
-                        <div class="col-md-6">
-                            <input type="checkbox" name="role" value="@role.NormalizedName" title="@role.Description" class="filled-in" id="@($"role{role.Id}")" @(Model.UserIsInRole(role) ? "checked" : "") />
-                            <label for="@($"role{role.Id}")" title="@role.DisplayName">@role.Name</label>
+
+        <div class="tab-content-container">
+            <div class="tab-content" id="pills-tabContent">
+
+                @* --- TAB 1: USER DETAILS --- *@
+                <div class="tab-pane fade show active" id="pills-user-details" role="tabpanel" aria-labelledby="pills-user-details-tab">
+
+                    <div class="row">
+                        @* Cột trái: Icon đại diện (Tạo điểm nhấn thị giác) *@
+                        <div class="col-md-3 text-center d-flex align-items-center justify-content-center flex-column mb-3 mb-md-0">
+                            <i class="fas fa-user-tie user-avatar-icon mb-3"></i>
+                            <h6 class="text-muted">@L("AccountInfo")</h6>
                         </div>
-                    }
+
+                        @* Cột phải: Form nhập liệu chính *@
+                        <div class="col-md-9 ps-md-4 border-start-md">
+
+                            @* Nhóm Họ và Tên trên 1 hàng *@
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="surname" name="Surname" value="@Model.User.Surname" required maxlength="@AbpUserBase.MaxSurnameLength" placeholder="@L("Surname")">
+                                        <label for="surname" class="required-label">@L("Surname")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="name" name="Name" value="@Model.User.Name" required maxlength="@AbpUserBase.MaxNameLength" placeholder="@L("Name")">
+                                        <label for="name" class="required-label">@L("Name")</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @* UserName *@
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username" name="UserName" value="@Model.User.UserName" required maxlength="@AbpUserBase.MaxUserNameLength" minlength="2" placeholder="@L("UserName")" autocomplete="off">
+                                <label for="username" class="required-label">@L("UserName")</label>
+                                <div class="form-text ms-1"><small><i class="fas fa-info-circle me-1"></i>Tên đăng nhập duy nhất trong hệ thống.</small></div>
+                            </div>
+
+                            @* Email *@
+                            <div class="form-floating mb-4">
+                                <input type="email" class="form-control" id="email" name="EmailAddress" value="@Model.User.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength" placeholder="@L("EmailAddress")">
+                                <label for="email" class="required-label">@L("EmailAddress")</label>
+                            </div>
+
+                            <hr class="my-4 text-muted opacity-25">
+
+                            @* Trạng thái hoạt động *@
+                            <div class="d-flex align-items-center justify-content-between p-3 rounded border bg-light">
+                                <div>
+                                    <h6 class="mb-1 fw-bold"><i class="fas fa-power-off me-2 text-primary"></i>@L("IsActive")</h6>
+                                    <small class="text-muted">@L("SetUserActiveStatusDescription", "Cho phép người dùng này đăng nhập vào hệ thống.")</small>
+                                </div>
+                                <div class="form-check form-switch form-switch-lg mb-0">
+                                    <input class="form-check-input" type="checkbox" id="IsActive" name="IsActive" value="true" @(Model.User.IsActive ? "checked" : "") style="cursor: pointer; transform: scale(1.3);">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                @* --- TAB 2: USER ROLES --- *@
+                <div class="tab-pane fade" id="pills-user-roles" role="tabpanel" aria-labelledby="pills-user-roles-tab">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="fas fa-shield-alt text-warning fs-2 me-3"></i>
+                        <div>
+                            <h5 class="mb-1">@L("AssignRoles")</h5>
+                            <p class="text-muted mb-0 small">Chọn các vai trò để cấp quyền truy cập cho người dùng này.</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        @foreach (var role in Model.Roles)
+                        {
+                        <div class="col-sm-6">
+                            @* Sử dụng Card để làm nổi bật từng Role *@
+                            <label class="card h-100 border shadow-sm hover-shadow cursor-pointer" for="@($"role{role.Id}")" style="transition: all 0.2s;">
+                                <div class="card-body d-flex align-items-center p-3">
+                                    <div class="form-check form-switch mb-0 me-3">
+                                        @* Checkbox lớn hơn một chút *@
+                                        <input type="checkbox" name="role" value="@role.NormalizedName" class="form-check-input" id="@($"role{role.Id}")" @(Model.UserIsInRole(role) ? "checked" : "") style="transform: scale(1.2); cursor: pointer;">
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1" style="color: #344767;">@role.Name</h6>
+                                        <small class="text-muted d-block text-truncate" style="max-width: 250px;" title="@role.Description">@role.Description</small>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,3 +166,17 @@
 </form>
 
 <script src="~/view-resources/Views/Users/_EditModal.js" asp-append-version="true"></script>
+
+@* Script nhỏ để thêm hiệu ứng hover cho các card role *@
+<script>
+    $(function () {
+        // Kích hoạt tooltips
+        $('[data-bs-toggle="tooltip"]').tooltip();
+
+        // Hiệu ứng hover đơn giản cho role cards
+        $('.hover-shadow').hover(
+            function () { $(this).addClass('shadow'); $(this).css('border-color', '#0d6efd'); },
+            function () { $(this).removeClass('shadow'); $(this).css('border-color', ''); }
+        );
+    });
+</script>
