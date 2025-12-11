@@ -15,4 +15,6 @@ public class EmployeeListDto
     public PositionEnum Position { get; set; }
     public DateTime DateOfBirth { get; set; }
     public GenderEnum Gender { get; set; }
+    public string StringIsGender => Gender.ToString();
+    public string StringIsPosition => Position.ToString();
 }

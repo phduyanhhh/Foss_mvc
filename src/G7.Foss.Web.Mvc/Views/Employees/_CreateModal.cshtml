@@ -1,0 +1,90 @@
+﻿@using G7.Foss.Web.Models.Common.Modals
+@* @model G7.Foss.Web.Models.Roles.RoleListViewModel *@
+@{
+    Layout = null;
+}
+<div class="modal fade" id="EmployeeCreateModal" tabindex="-1" role="dialog" aria-labelledby="EmployeeCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewEmployee")))
+            <form name="employeeCreateForm" role="form" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="firstName">@L("FirstName")</label>
+                        <div class="col-md-9">
+                            <input id="firstName" type="text" name="FirstName" class="form-control" required maxlength="32" minlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="lastName">@L("LastName")</label>
+                        <div class="col-md-9">
+                            <input id="lastName" type="text" name="LastName" class="form-control" required maxlength="32" minlength="2">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="email">@L("Email")</label>
+                        <div class="col-md-9">
+                            <input id="email" type="text" name="Email" class="form-control" required minlength="5">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="phoneNumber">@L("PhoneNumber")</label>
+                        <div class="col-md-9">
+                            <input id="phoneNumber" type="text" name="PhoneNumber" class="form-control" required maxlength="11" minlength="9">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="address">@L("Address")</label>
+                        <div class="col-md-9">
+                            <input id="address" type="text" name="Address" class="form-control" required minlength="5">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="gender">@L("Gender")</label>
+                        <div class="col-md-9">
+                            <div class="row">
+                                @foreach (var item in ViewBag.GenderList)
+                                {
+                                    <label>
+                                        <input type="radio" name="gender" value="@item.Value" /> @item.Text
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="position">@L("Position")</label>
+                        <div class="col-md-9">
+                            <div class="row">
+                                @foreach (var item in ViewBag.PositionList)
+                                {
+                                    <label>
+                                        <input type="radio" name="position" value="@item.Value" /> @item.Text
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="salary">@L("Salary")</label>
+                        <div class="col-md-9">
+                            <input id="salary" type="text" name="Salary" class="form-control" required minlength="5">
+                        </div>
+                    </div>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label" for="dateOfBirth">@L("DateOfBirth")</label>
+                        <div class="col-md-9">
+                            <input id="dateOfBirth" 
+                                   type="date" 
+                                   name="DateOfBirth" 
+                                   class="form-control" 
+                                   required>
+                        </div>
+                    </div>
+
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+        </div>
+    </div>
+</div>
