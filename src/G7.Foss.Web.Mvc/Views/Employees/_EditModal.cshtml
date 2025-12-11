@@ -1,0 +1,124 @@
+﻿@using G7.Foss.Web.Models.Common.Modals
+@using G7.Foss.Services.Employees.Dtos
+@model EmployeeListDto
+@{
+    Layout = null;
+}
+@await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditEmployee")))
+<form name="EmployeeEditForm" role="form" class="form-horizontal">
+    <input type="hidden" name="Id" value="@Model.Id"/>
+    <div class="modal-body">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" role="tab"
+                   href="#edit-employee-details">@L("EmployeeDetails")</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" role="tab" href="#edit-employee-roles">@L("EditEmployee")</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-4">
+            <div role="tabpanel" class="tab-pane container active" id="edit-user-details">
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="firstName">@L("FirstName")</label>
+                    <div class="col-md-9">
+                        <input id="firstName" type="text" name="FirstName" value="@Model.FirstName" class="form-control"
+                               required maxlength="32"
+                               minlength="2">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="lastName">@L("LastName")</label>
+                    <div class="col-md-9">
+                        <input id="lastName" type="text" name="LastName" value="@Model.LastName" class="form-control"
+                               required maxlength="32"
+                               minlength="2">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="email">@L("Email")</label>
+                    <div class="col-md-9">
+                        <input id="email" type="text" name="Email" value="@Model.Email" class="form-control" required
+                               minlength="5">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="phoneNumber">@L("PhoneNumber")</label>
+                    <div class="col-md-9">
+                        <input id="phoneNumber" type="text" name="PhoneNumber" value="@Model.PhoneNumber"
+                               class="form-control" required maxlength="11"
+                               minlength="9">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="address">@L("Address")</label>
+                    <div class="col-md-9">
+                        <input id="address" type="text" name="Address" value="@Model.Address" class="form-control"
+                               required minlength="5">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="gender">@L("Gender")</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            @foreach (var item in ViewBag.GenderList)
+                            {
+                                <label>
+                                    <input type="radio"
+                                           name="gender"
+                                           value="@item.Value"
+                                           @(((int)Model.Gender).ToString() == item.Value ? "checked" : "")/>
+                                    @item.Text
+                                </label>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="position">@L("Position")</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            @foreach (var item in ViewBag.PositionList)
+                            {
+                                <div class="col-md-4">
+                                    <label class="mr-3">
+                                        <input type="radio"
+                                               name="Position"
+                                               value="@item.Value"
+                                               @(((int)Model.Position).ToString() == item.Value ? "checked" : "")/>
+                                        @item.Text
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="salary">@L("Salary")</label>
+                    <div class="col-md-9">
+                        <input id="salary" type="text" name="Salary" value="@Model.Salary" class="form-control" required
+                               minlength="5">
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="dateOfBirth">@L("DateOfBirth")</label>
+                    <div class="col-md-9">
+                        <input id="dateOfBirth"
+                               type="date"
+                               name="DateOfBirth"
+                               class="form-control"
+                               value="@Model.DateOfBirth"
+                               required>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>
+
+<script src="~/view-resources/Views/Employees/_EditModal.js" asp-append-version="true"></script>
