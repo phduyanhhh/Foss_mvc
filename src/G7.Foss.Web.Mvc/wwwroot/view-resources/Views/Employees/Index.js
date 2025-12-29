@@ -107,6 +107,44 @@
             _$form.clearForm();
         });
 
+    _$form.find('.save-button').on('click', (e) => {
+        e.preventDefault();
+        //alert("xxx");
+        if (!_$form.valid()) {
+            return;
+        }
+
+        var data = {
+            FirstName: $("#firstName").val(),
+            LastName: $("#lastName").val(),
+            Email: $("#email").val(),
+            PhoneNumber: $("#phoneNumber").val(),
+            Address: $("#address").val(),
+            Gender: $('input[name="gender"]:checked').val(),
+            Position: $('input[name="position"]:checked').val(),
+            DateOfBirth: $("#dateOfBirth").val(),
+            Salary: $("#salary").val(),
+        };
+
+        $.ajax({
+            url: '/api/services/app/EmployeeAppServices/Create',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+                _$modal.modal('hide');
+                _$form[0].reset();
+                abp.notify.info(l('SavedSuccessfully'));
+                location.href = '/Employees';
+            },
+            error: function(err) {
+                console.error("Lỗi", err);
+            }
+        });
+
+
+    });
+    
     $(document).on("click", ".edit-employee", function (e) {
         var employeeId = $(this).attr("data-employee-id");
 
@@ -122,5 +160,31 @@
         });
     });
 
-   
+    
+    //delete
+    $(document).on('click', '.delete-employee', function () {
+        var employeeId = $(this).attr("data-employee-id");
+        var employeeName = $(this).attr('data-employee-name');
+
+        deleteEmployee(employeeId, employeeName);
+    });
+    function deleteEmployee(employeeId, employeeName) {
+        abp.message.confirm(
+            abp.utils.formatString(
+                l('AreYouSureWantToDelete'),
+                employeeName),
+            null,
+            (isConfirmed) => {
+                if (isConfirmed) {
+                    _employeeService.deleteEmployee(
+                        employeeId
+                    ).done(() => {
+                        abp.notify.info(l('SuccessfullyDeleted'));
+                        _$employeesTable.ajax.reload();
+                    });
+                }
+            }
+        );
+    }
+
 })(jQuery);

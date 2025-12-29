@@ -58,8 +58,8 @@ public class FossNavigationProvider : NavigationProvider
                     PageNames.Employees,
                     L("Employees"),
                     url: "Employees",
-                    icon: "fas fa-theater-masks"
-                    // permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Roles)
+                    icon: "fas fa-id-badge",
+                    permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Roles)
                 )
             )
             .AddItem( // Menu items below is just for demonstration!
